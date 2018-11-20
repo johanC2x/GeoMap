@@ -17,6 +17,7 @@
 		public $flgEstado;
 		public $descripcion;
 		public $fechaFin;
+		public $fechaIni;
 
 		//AYUDA
 		public $anio;
@@ -145,6 +146,9 @@
 	    public function setAnio($anio){
 	        $this->anio = $anio;
 	        return $this;
-	    }
+		}
+		
+		
+
 }
 ?>

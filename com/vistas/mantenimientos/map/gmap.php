@@ -128,6 +128,7 @@
 <?php
 	include_once '../../plantilla/script.php';
 ?>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=AIzaSyDR9Dabu_CPuS75XJiGlctFScHrAnn1JlI&libraries=places" type="text/javascript"></script>
 <script type="text/javascript" >
 	initialize();
 	obtenerDistrito("cboDistrito");

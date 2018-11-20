@@ -152,6 +152,23 @@
 			$listaDistrito = $mapDAO->obtenerMapSolicitudFilter($mapBean);
 			echo json_encode($listaDistrito);
 			break;
+		case 22:
+			$actividad = $_POST["actividad_proyecto"];
+			$codigo = $_POST["codigo_proyecto"];
+			$contratista = $_POST["contratista_proyecto"];
+			$cliente = $_POST["cliente_proyecto"];
+			$fecini = $_POST["fecini_proyecto"];
+			$fecfin = $_POST["fecfin_proyecto"];
+			$direccion = $_POST["direccion_proyecto"];
+			$distrito = $_POST["distrito_proyecto"];
+			$long = $_POST["long_proyecto"];
+			$lat = $_POST["lat_proyecto"];
+			$mapBean->setSolicitud($codigo);
+			$mapBean->setActividad($actividad);
+			$mapBean->setNombreContratista($contratista);
+			$mapBean->setCliente($cliente);
+			$mapBean->setCliente($fecini);
+			break;
 	}
 
 ?>
