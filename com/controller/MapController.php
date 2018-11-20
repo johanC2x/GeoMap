@@ -167,7 +167,12 @@
 			$mapBean->setActividad($actividad);
 			$mapBean->setNombreContratista($contratista);
 			$mapBean->setCliente($cliente);
-			$mapBean->setCliente($fecini);
+			$mapBean->setFechaIni($fecini);
+			$mapBean->setFechaFin($fecfin);
+			$mapBean->setDirObra($direccion);
+			$mapBean->setDistrito($distrito);
+			$mapBean->setLng($long);
+			$mapBean->setLat($lat);
 			break;
 	}
 

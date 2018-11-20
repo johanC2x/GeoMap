@@ -435,6 +435,27 @@
 			return $miArray;
 		}
 		
+		public function insertarSolicitud(MapBean $mapBean){
+			$res = 0;
+			try {
+				$sql = "INSERT INTO `map` (`X`, `Y`, `solicitud`, `actividad`, 
+						 `nombreContratista`, `cliente`, `dirObra`, `distrito`,`estadoobra`,
+						 `flgEstado`, `fechafin`, `fechaini`)
+						VALUES ($mapBean->getLng(),$mapBean->getLat(),$mapBean->getSolicitud(),
+						        $mapBean->getActividad(),$mapBean->getNombreContratista(),
+						        $mapBean->getCliente(),$mapBean->getDirObra(),
+						        $mapBean->getDistrito(),0,0,$mapBean->getFechaFin(),
+						    	$mapBean->getFechaIni())";
+				$conexion = new Conexion();
+	            $cn = $conexion->Conectarse();
+	            $map = mysql_query($sql, $cn);
+	            $res = 1;
+			} catch (Exception $exc) {
+				echo $exc->getTraceAsString();
+			}
+			return $res;
+		}
+
 		public function actualizarRegistrosDes(MapBean $mapBean){
 			try {
 				$res = 0;

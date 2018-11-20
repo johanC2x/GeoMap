@@ -18,6 +18,8 @@
 		public $descripcion;
 		public $fechaFin;
 		public $fechaIni;
+		public $lat;
+		public $lng;
 
 		//AYUDA
 		public $anio;
@@ -148,7 +150,65 @@
 	        return $this;
 		}
 		
-		
+	    /**
+	     * @return mixed
+	     */
+	    public function getFechaIni()
+	    {
+	        return $this->fechaIni;
+	    }
 
+	    /**
+	     * @param mixed $fechaIni
+	     *
+	     * @return self
+	     */
+	    public function setFechaIni($fechaIni)
+	    {
+	        $this->fechaIni = $fechaIni;
+
+	        return $this;
+	    }
+
+	    /**
+	     * @return mixed
+	     */
+	    public function getLat()
+	    {
+	        return $this->lat;
+	    }
+
+	    /**
+	     * @param mixed $lat
+	     *
+	     * @return self
+	     */
+	    public function setLat($lat)
+	    {
+	        $this->lat = $lat;
+
+	        return $this;
+	    }
+
+
+	    /**
+	     * @return mixed
+	     */
+	    public function getLng()
+	    {
+	        return $this->lng;
+	    }
+
+	    /**
+	     * @param mixed $lng
+	     *
+	     * @return self
+	     */
+	    public function setLng($lng)
+	    {
+	        $this->lng = $lng;
+
+	        return $this;
+	    }
 }
 ?>
