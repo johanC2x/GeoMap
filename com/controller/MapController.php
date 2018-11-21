@@ -173,6 +173,12 @@
 			$mapBean->setDistrito($distrito);
 			$mapBean->setLng($long);
 			$mapBean->setLat($lat);
+			$result = $mapDAO->insertarSolicitud($mapBean);
+			echo json_encode($result);
+			break;
+		case 23:
+			$result = $mapDAO->obtenerAsignaciones();
+			echo json_encode($result);
 			break;
 	}
 

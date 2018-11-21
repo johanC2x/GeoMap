@@ -125,6 +125,7 @@
                                 <button id="btn_save_map" type="button" class="btn btn-primary">
                                     Guardar
                                 </button>
+                                <div id="res_map"></div>
                             </div>
                         </div> 
                     </div>
@@ -151,6 +152,7 @@
             }
             asignacion.initMap();
             google.maps.event.addDomListener(window, 'load', asignacion.loadAutocomplete());
+            asignacion.loadTable();
         </script>
 	</body>
 </html>

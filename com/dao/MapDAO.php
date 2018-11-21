@@ -435,17 +435,51 @@
 			return $miArray;
 		}
 		
+		public function obtenerAsignaciones(){
+			try{
+				$miArray= "";
+				$sql = "SELECT `idMap`, `X`, `Y`, `solicitud`, `actividad`, `nombreContratista`, `cliente`, `dirObra`, 
+						`distrito`, `rolLiquidador`, `tecnico`, `finReal`, `mes`, `ruta`, `roltecnico`, `estadoobra`, `plazo`, 
+						`ultdevcon`, `atrazoliqtecsur`, `condicion`, `utlenvcont`, `descripcion`, `flgEstado`, `fechafin`, `fechaIni` 
+						FROM `map` ORDER BY idMap DESC limit 50";
+				$conexion = new Conexion();
+	            $cn = $conexion->Conectarse();
+				$map = mysql_query($sql, $cn);
+				while ($rsMap = mysql_fetch_array($map)) {
+	            	$miArray[] = array(
+	            		'idMap' => $rsMap['idMap'],
+	            		'solicitud' => $rsMap['solicitud'],
+	            		'actividad' => $rsMap['actividad'],
+	            		'nombreContratista' => $rsMap['nombreContratista'],
+	            		'cliente' => $rsMap['cliente'],
+	            		'dirObra' => $rsMap['dirObra'],
+	            		'rolLiquidador' => $rsMap['rolLiquidador'],
+	            		'distrito' => $rsMap['distrito'],
+	            		'tecnico' => $rsMap['tecnico'],
+	            		'finReal' => $rsMap['finReal'],
+	            		'mes' => $rsMap['mes'],
+	            		'ruta' => $rsMap['ruta'],
+	            		'nombreContratista' => $rsMap['nombreContratista'],
+	            		'roltecnico' => $rsMap['roltecnico']
+					);
+				}		
+			} catch (Exception $exc) {
+				echo $exc->getTraceAsString();
+			}
+			return $miArray;
+		}
+
 		public function insertarSolicitud(MapBean $mapBean){
 			$res = 0;
 			try {
-				$sql = "INSERT INTO `map` (`X`, `Y`, `solicitud`, `actividad`, 
-						 `nombreContratista`, `cliente`, `dirObra`, `distrito`,`estadoobra`,
-						 `flgEstado`, `fechafin`, `fechaini`)
-						VALUES ($mapBean->getLng(),$mapBean->getLat(),$mapBean->getSolicitud(),
-						        $mapBean->getActividad(),$mapBean->getNombreContratista(),
-						        $mapBean->getCliente(),$mapBean->getDirObra(),
-						        $mapBean->getDistrito(),0,0,$mapBean->getFechaFin(),
-						    	$mapBean->getFechaIni())";
+				$sql = "INSERT INTO map (X,Y,solicitud,actividad, 
+						 nombreContratista,cliente,dirObra,distrito,estadoobra,
+						 flgEstado,fechafin,fechaini)
+						VALUES ('$mapBean->lng','$mapBean->lat','$mapBean->solicitud',
+						        '$mapBean->actividad','$mapBean->nombreContratista',
+						        '$mapBean->cliente','$mapBean->dirObra',
+						        '$mapBean->distrito',0,0,'$mapBean->fechaFin',
+								'$mapBean->fechaIni')";
 				$conexion = new Conexion();
 	            $cn = $conexion->Conectarse();
 	            $map = mysql_query($sql, $cn);
