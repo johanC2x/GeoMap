@@ -460,7 +460,9 @@
 	            		'mes' => $rsMap['mes'],
 	            		'ruta' => $rsMap['ruta'],
 	            		'nombreContratista' => $rsMap['nombreContratista'],
-	            		'roltecnico' => $rsMap['roltecnico']
+						'roltecnico' => $rsMap['roltecnico'],
+						'fechafin' => $rsMap['fechafin'],
+						'fechaIni' => $rsMap['fechaIni']
 					);
 				}		
 			} catch (Exception $exc) {
@@ -482,6 +484,45 @@
 								'$mapBean->fechaIni')";
 				$conexion = new Conexion();
 	            $cn = $conexion->Conectarse();
+	            $map = mysql_query($sql, $cn);
+	            $res = 1;
+			} catch (Exception $exc) {
+				echo $exc->getTraceAsString();
+			}
+			return $res;
+		}
+
+		public function actualizarSolicitud(MapBean $mapBean){
+			$res = 0;
+			try {
+				$sql = "UPDATE map set 
+							X = '$mapBean->lng',
+							Y = '$mapBean->lat',
+							solicitud = '$mapBean->solicitud',
+							actividad = '$mapBean->actividad',
+							nombreContratista = '$mapBean->nombreContratista',
+							cliente = '$mapBean->cliente',
+							dirObra = '$mapBean->dirObra',
+							distrito = '$mapBean->distrito',
+							fechafin = '$mapBean->fechaFin',
+							fechaini = '$mapBean->fechaIni'
+						WHERE idMap = $mapBean->idMap";
+				$conexion = new Conexion();
+				$cn = $conexion->Conectarse();
+	            $map = mysql_query($sql, $cn);
+	            $res = 1;
+			} catch (Exception $exc) {
+				echo $exc->getTraceAsString();
+			}
+			return $res;
+		}
+
+		public function eliminarSolicitud(MapBean $mapBean){
+			$res = 0;
+			try {
+				$sql = "DELETE FROM map WHERE idMap = $mapBean->idMap";
+				$conexion = new Conexion();
+				$cn = $conexion->Conectarse();
 	            $map = mysql_query($sql, $cn);
 	            $res = 1;
 			} catch (Exception $exc) {

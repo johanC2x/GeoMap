@@ -5,7 +5,8 @@ var asignacion = (() => {
         lat: -34.397,
         lng: 150.644,
         name: "Lima Perú",
-        op : ""
+        op : "",
+        current_id:0
     };
 
     self.init = () => {
@@ -47,6 +48,15 @@ var asignacion = (() => {
     };
 
     self.saveMap = () => {
+        if($("#idMap").val() !== ""){
+            self.updateMap();
+        }else{
+            self.insertMap();
+        }
+        self.loadTable();
+    };
+
+    self.insertMap = () => {
         $.ajax({
             type:"POST",
             data:$("#frm_map").serialize(),
@@ -66,6 +76,47 @@ var asignacion = (() => {
         });
     };
 
+    self.updateMap = () => {
+        $("#op").val(24);
+        $.ajax({
+            type:"POST",
+            data:$("#frm_map").serialize(),
+            async: false,
+            url:"../../../controller/MapController.php",
+            success:function(msg){
+                var res_map = "";
+                var response = JSON.parse(msg);
+                if(parseInt(response) === 1){
+                    document.getElementById("frm_map").reset();
+                    res_map = obtenerAlert("Operación realizada con éxito");
+                }else{
+                    res_map = obtenerAlert("Se ha producido un error");
+                }
+                $("#res_map").html(res_map);
+            }
+        });
+    };
+
+    self.eliminarMap = () => {
+        self.op = 25;
+        $.ajax({
+            type:"POST",
+            data:{
+                op : self.op,
+                idMap : self.current_id
+            },
+            async: false,
+            url:"../../../controller/MapController.php",
+            success:function(msg){
+                var res_map = "";
+                var response = JSON.parse(msg);
+                if(parseInt(response) === 1){
+                    self.loadTable();
+                }
+            }
+        });
+    };
+
     self.obtenerPorId = (idMap,is_deleted) => {
         self.op = "4";
         $.ajax({
@@ -77,29 +128,33 @@ var asignacion = (() => {
             url:"../../../controller/MapController.php",
             success:function(response){
                 var data = JSON.parse(response);
-                $("#actividad_proyecto").val(data[0].actividad);
-                $("#lat_proyecto").val(parseFloat(data[0].x));
-                $("#long_proyecto").val(parseFloat(data[0].y));
-                $("#codigo_proyecto").val(data[0].solicitud);
-                $("#contratista_proyecto").val(data[0].nombreContratista);
-                $("#cliente_proyecto").val(data[0].cliente);
-                //$("#fecini_proyecto").val(data[0].y);
-                //$("#fecfin_proyecto").val(data[0].y);
-                $("#direccion_proyecto").val(data[0].dirObra);
-                $("#distrito_proyecto").val(data[0].distrito);
-
-                self.lat = data[0].x;
-                self.lng = data[0].y;
-                self.name = data[0].dirObra;
-                self.initMap();
-
-                $("#new_proyecto").modal("show");
-
+                $("#idMap").val(data[0].idMap);
+                self.current_id = data[0].idMap;
+                if(is_deleted){
+                    var bool = confirm("¿Seguro desea eliminar el siguiente registro?");
+                    if(bool){
+                        self.eliminarMap();
+                    }
+                }else{
+                    $("#actividad_proyecto").val(data[0].actividad);
+                    console.log(data[0].x);
+                    $("#lat_proyecto").val(parseFloat(data[0].x));
+                    $("#long_proyecto").val(parseFloat(data[0].y));
+                    $("#codigo_proyecto").val(data[0].solicitud);
+                    $("#contratista_proyecto").val(data[0].nombreContratista);
+                    $("#cliente_proyecto").val(data[0].cliente);
+                    //$("#fecini_proyecto").val(data[0].y);
+                    //$("#fecfin_proyecto").val(data[0].y);
+                    $("#direccion_proyecto").val(data[0].dirObra);
+                    $("#distrito_proyecto").val(data[0].distrito);
+                    self.lat = parseFloat(data[0].x);
+                    self.lng = parseFloat(data[0].y);
+                    self.name = data[0].dirObra;
+                    self.initMap();
+                    $("#new_proyecto").modal("show");
+                }
             }
         });
-        if(is_deleted){
-            
-        }
     };
 
     self.loadTable = () => {
@@ -138,7 +193,7 @@ var asignacion = (() => {
                                     </td>
                                     <td>
                                         <center>
-                                            <a href="javascript:void(0);" onclick="asignacion.obtenerPorId(` + data[i].idMap + `,false);">
+                                            <a href="javascript:void(0);" onclick="asignacion.obtenerPorId(` + data[i].idMap + `,true);">
                                                 <img src="../../../../assets/img/cancelar.png" style="width:15px;">
                                             </a>
                                         </center>

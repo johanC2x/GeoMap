@@ -180,6 +180,38 @@
 			$result = $mapDAO->obtenerAsignaciones();
 			echo json_encode($result);
 			break;
+		case 24:
+			$idMap = $_POST["idMap"];
+			$actividad = $_POST["actividad_proyecto"];
+			$codigo = $_POST["codigo_proyecto"];
+			$contratista = $_POST["contratista_proyecto"];
+			$cliente = $_POST["cliente_proyecto"];
+			$fecini = $_POST["fecini_proyecto"];
+			$fecfin = $_POST["fecfin_proyecto"];
+			$direccion = $_POST["direccion_proyecto"];
+			$distrito = $_POST["distrito_proyecto"];
+			$long = $_POST["long_proyecto"];
+			$lat = $_POST["lat_proyecto"];
+			$mapBean->setSolicitud($codigo);
+			$mapBean->setActividad($actividad);
+			$mapBean->setNombreContratista($contratista);
+			$mapBean->setCliente($cliente);
+			$mapBean->setFechaIni($fecini);
+			$mapBean->setFechaFin($fecfin);
+			$mapBean->setDirObra($direccion);
+			$mapBean->setDistrito($distrito);
+			$mapBean->setLng($long);
+			$mapBean->setLat($lat);
+			$mapBean->setIdMap($idMap);
+			$result = $mapDAO->actualizarSolicitud($mapBean);
+			echo json_encode($result);
+			break;
+		case 25:
+			$idMap = $_POST["idMap"];
+			$mapBean->setIdMap($idMap);
+			$result = $mapDAO->eliminarSolicitud($mapBean);
+			echo json_encode($result);
+			break;
 	}
 
 ?>

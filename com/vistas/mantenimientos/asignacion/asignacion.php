@@ -111,6 +111,7 @@
                                             <input type="hidden" name="lat_proyecto" id="lat_proyecto"/>
                                             <input type="hidden" name="long_proyecto" id="long_proyecto"/>
                                             <input type="hidden" name="op" id="op" value="22"/>
+                                            <input type="hidden" name="idMap" id="idMap"/>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
