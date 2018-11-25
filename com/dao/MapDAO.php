@@ -152,7 +152,7 @@
 				$miArray¨= "";
 				$sql = "SELECT x,y,idMap,solicitud,actividad,nombreContratista,
 				        cliente,dirObra,distrito,rolLiquidador,tecnico,finReal,mes,
-				        flgEstado,descripcion 
+				        flgEstado,descripcion,fechafin,fechaIni,access_code,idUser
 				        FROM map where idMap = '$mapBean->idMap'";
 				$conexion = new Conexion();
 	            $cn = $conexion->Conectarse();
@@ -173,7 +173,11 @@
 	            		'finReal' => $rsMap['finReal'],
 	            		'mes' => $rsMap['mes'],
 	            		'flgEstado' => $rsMap['flgEstado'],
-	            		'descripcion' => $rsMap['descripcion']
+						'descripcion' => $rsMap['descripcion'],
+						'access_code' => $rsMap['access_code'],
+						'fechaIni' => $rsMap['fechaIni'],
+						'fechafin' => $rsMap['fechafin'],
+						'idUser' => $rsMap['idUser']
 					);
 	            }
 			} catch (Exception $exc) {
@@ -440,8 +444,85 @@
 				$miArray= "";
 				$sql = "SELECT `idMap`, `X`, `Y`, `solicitud`, `actividad`, `nombreContratista`, `cliente`, `dirObra`, 
 						`distrito`, `rolLiquidador`, `tecnico`, `finReal`, `mes`, `ruta`, `roltecnico`, `estadoobra`, `plazo`, 
-						`ultdevcon`, `atrazoliqtecsur`, `condicion`, `utlenvcont`, `descripcion`, `flgEstado`, `fechafin`, `fechaIni` 
+						`ultdevcon`, `atrazoliqtecsur`, `condicion`, `utlenvcont`, `descripcion`, `flgEstado`, `fechafin`, `fechaIni`,
+						access_code
 						FROM `map` ORDER BY idMap DESC limit 50";
+				$conexion = new Conexion();
+	            $cn = $conexion->Conectarse();
+				$map = mysql_query($sql, $cn);
+				while ($rsMap = mysql_fetch_array($map)) {
+	            	$miArray[] = array(
+	            		'idMap' => $rsMap['idMap'],
+	            		'solicitud' => $rsMap['solicitud'],
+	            		'actividad' => $rsMap['actividad'],
+	            		'nombreContratista' => $rsMap['nombreContratista'],
+	            		'cliente' => $rsMap['cliente'],
+	            		'dirObra' => $rsMap['dirObra'],
+	            		'rolLiquidador' => $rsMap['rolLiquidador'],
+	            		'distrito' => $rsMap['distrito'],
+	            		'tecnico' => $rsMap['tecnico'],
+	            		'finReal' => $rsMap['finReal'],
+	            		'mes' => $rsMap['mes'],
+	            		'ruta' => $rsMap['ruta'],
+	            		'nombreContratista' => $rsMap['nombreContratista'],
+						'roltecnico' => $rsMap['roltecnico'],
+						'fechafin' => $rsMap['fechafin'],
+						'fechaIni' => $rsMap['fechaIni']
+					);
+				}		
+			} catch (Exception $exc) {
+				echo $exc->getTraceAsString();
+			}
+			return $miArray;
+		}
+
+		public function obtenerAsignacionesByPage($offset){
+			try{
+				$miArray= "";
+				$sql = "SELECT `idMap`, `X`, `Y`, `solicitud`, `actividad`, `nombreContratista`, `cliente`, `dirObra`, 
+						`distrito`, `rolLiquidador`, `tecnico`, `finReal`, `mes`, `ruta`, `roltecnico`, `estadoobra`, `plazo`, 
+						`ultdevcon`, `atrazoliqtecsur`, `condicion`, `utlenvcont`, `descripcion`, `flgEstado`, `fechafin`, `fechaIni`,
+						access_code
+						FROM `map` ORDER BY idMap DESC limit 50 OFFSET $offset";
+				$conexion = new Conexion();
+	            $cn = $conexion->Conectarse();
+				$map = mysql_query($sql, $cn);
+				while ($rsMap = mysql_fetch_array($map)) {
+	            	$miArray[] = array(
+	            		'idMap' => $rsMap['idMap'],
+	            		'solicitud' => $rsMap['solicitud'],
+	            		'actividad' => $rsMap['actividad'],
+	            		'nombreContratista' => $rsMap['nombreContratista'],
+	            		'cliente' => $rsMap['cliente'],
+	            		'dirObra' => $rsMap['dirObra'],
+	            		'rolLiquidador' => $rsMap['rolLiquidador'],
+	            		'distrito' => $rsMap['distrito'],
+	            		'tecnico' => $rsMap['tecnico'],
+	            		'finReal' => $rsMap['finReal'],
+	            		'mes' => $rsMap['mes'],
+	            		'ruta' => $rsMap['ruta'],
+	            		'nombreContratista' => $rsMap['nombreContratista'],
+						'roltecnico' => $rsMap['roltecnico'],
+						'fechafin' => $rsMap['fechafin'],
+						'fechaIni' => $rsMap['fechaIni']
+					);
+				}		
+			} catch (Exception $exc) {
+				echo $exc->getTraceAsString();
+			}
+			return $miArray;
+		}
+
+		public function obtenerAsignacionesPorCod(MapBean $mapBean){
+			$miArray= array();
+			try{
+				$sql = "SELECT `idMap`, `X`, `Y`, `solicitud`, `actividad`, `nombreContratista`, `cliente`, `dirObra`, 
+						`distrito`, `rolLiquidador`, `tecnico`, `finReal`, `mes`, `ruta`, `roltecnico`, `estadoobra`, `plazo`, 
+						`ultdevcon`, `atrazoliqtecsur`, `condicion`, `utlenvcont`, `descripcion`, `flgEstado`, `fechafin`, `fechaIni`,
+						access_code
+						FROM `map` 
+						WHERE solicitud like concat('%','$mapBean->solicitud','%')
+						ORDER BY idMap DESC limit 50";
 				$conexion = new Conexion();
 	            $cn = $conexion->Conectarse();
 				$map = mysql_query($sql, $cn);
@@ -476,12 +557,13 @@
 			try {
 				$sql = "INSERT INTO map (X,Y,solicitud,actividad, 
 						 nombreContratista,cliente,dirObra,distrito,estadoobra,
-						 flgEstado,fechafin,fechaini)
+						 flgEstado,fechafin,fechaini,access_code,idUser)
 						VALUES ('$mapBean->lng','$mapBean->lat','$mapBean->solicitud',
 						        '$mapBean->actividad','$mapBean->nombreContratista',
 						        '$mapBean->cliente','$mapBean->dirObra',
 						        '$mapBean->distrito',0,0,'$mapBean->fechaFin',
-								'$mapBean->fechaIni')";
+								'$mapBean->fechaIni','$mapBean->access_code',
+								'$mapBean->idUser')";
 				$conexion = new Conexion();
 	            $cn = $conexion->Conectarse();
 	            $map = mysql_query($sql, $cn);
@@ -505,7 +587,9 @@
 							dirObra = '$mapBean->dirObra',
 							distrito = '$mapBean->distrito',
 							fechafin = '$mapBean->fechaFin',
-							fechaini = '$mapBean->fechaIni'
+							fechaini = '$mapBean->fechaIni',
+							access_code = '$mapBean->access_code',
+							idUser = '$mapBean->idUser'
 						WHERE idMap = $mapBean->idMap";
 				$conexion = new Conexion();
 				$cn = $conexion->Conectarse();

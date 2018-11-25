@@ -25,6 +25,8 @@
 <script type="text/javascript" src="../../../../assets/js/codigo.js"></script>
 <script type="text/javascript" src="../../../../assets/js/perfil.js"></script>
 <script type="text/javascript" src="../../../../assets/js/grafico.js"></script>
+<script type="text/javascript" src="../../../../assets/js/moment.js"></script>
+<script type="text/javascript" src="../../../../assets/js/block-ui.js"></script>
 
 <script type="text/javascript" src="../../../../assets/lib/asignacion.js"></script>
 <!--

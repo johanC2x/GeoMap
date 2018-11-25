@@ -33,8 +33,8 @@
                                         <label for="text">Filtros: </label>
                                         <input type="text" class="form-control" id="cod_proyecto" style="width:350px;" placeholder="Ingresar Codigo">
                                     </div>
-                                    <button type="button" class="btn btn-primary" onclick="buscarPerfilModulo()">Buscar</button>
-                                    <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#new_proyecto">Nuevo</button>
+                                    <button type="button" class="btn btn-primary" onclick="asignacion.buscarSolicitud();">Buscar</button>
+                                    <button type="button"  class="btn btn-primary" onclick="asignacion.openModal();">Nuevo</button>
                                 </form>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <table id="tableMap" class='table table-striped table-bordered table-hover'>
+                <table id="tableMap" class='table table-striped table-bordered table-hover' style="background-color:white">
                     <thead>
                         <tr>
                             <th>
@@ -82,10 +82,8 @@
                 <center>
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">50</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="asignacion.loadTablePage('min');">Anterior</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="asignacion.loadTablePage('max');">Siguiente</a></li>
                         </ul>
                     </nav>
                 </center>
@@ -160,6 +158,22 @@
                                             <input type="text" name="distrito_proyecto" id="distrito_proyecto" class="form-control"/>
                                         </div>
                                     </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label>Obtener Acceso</label>
+                                            <input type="text" name="access_proyecto" id="access_proyecto" class="form-control"/>
+                                            <button id="btn_get_code" type="button" class="btn">
+                                                Obtener Código
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Colaborador Asignado:</label>
+                                            <select name="idUser" id="idUser" class="form-control">
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -171,8 +185,8 @@
                             </div>
                         </form>
                         <br/>
-                        <button id="btn_clean_map" type="button" class="btn">
-                            Cancelar
+                        <button id="btn_clean_map" type="button" class="btn" data-dismiss="modal">
+                            Cerrar
                         </button>
                         <button id="btn_save_map" type="button" class="btn btn-primary">
                             Guardar
@@ -200,9 +214,15 @@
                     asignacion.saveMap();
                 });
             }
+            if(document.getElementById("btn_get_code") !== undefined){
+                $("#btn_get_code").click(function(){
+                    $("#access_proyecto").val(Math.floor((Math.random() * 10000000000) + 1));
+                });
+            }
             asignacion.initMap();
             google.maps.event.addDomListener(window, 'load', asignacion.loadAutocomplete());
             asignacion.loadTable();
+            asignacion.loadUser();
         </script>
 	</body>
 </html>

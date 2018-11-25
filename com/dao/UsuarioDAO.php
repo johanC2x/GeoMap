@@ -6,11 +6,68 @@
 
 	class UsuarioDAO{
 		public function validarUsuario(UsuarioBean $usuarioBean){
+			$miArray = array();
 			try {
-				$miArray = "";
 				$sql = "SELECT idusuario,usuario,passw,estado,idpersona,descripcion
 						FROM usuario 
-						WHERE usuario = '$usuarioBean->usuario' and passw = '$usuarioBean->passw' ";
+						WHERE usuario = '$usuarioBean->usuario' and passw = '$usuarioBean->passw' 
+						AND idusuario IN (SELECT u.idusuario
+						FROM perfilusuario pu,usuario u,perfil p,persona per
+						WHERE pu.idusuario = u.idusuario 
+						AND pu.idperfil = p.idperfil AND p.idperfil = 2 
+						AND u.idpersona = per.idpersona)";
+				$conexion = new Conexion();
+	            $cn = $conexion->Conectarse();
+	            $usuario = mysql_query($sql, $cn);
+	            while ($rsUsuario = mysql_fetch_array($usuario)) {
+	            	$miArray[] = array(
+	            		'idusuario' => $rsUsuario['idusuario'],
+	            		'usuario' => $rsUsuario['usuario'],
+	            		'passw' => $rsUsuario['passw'],
+	            		'estado' => $rsUsuario['estado'],
+	            		'idpersona' => $rsUsuario['idpersona'],
+						'descripcion' => $rsUsuario['descripcion'],
+						'perfiles' => $this->obtenerPerfilUsuario($rsUsuario['idusuario'])
+					);
+	            }
+			} catch (Exception $exc) {
+				echo $exc->getTraceAsString();
+			}
+			return $miArray;
+		}
+
+		public function obtenerPerfilUsuario($idUsuario){
+			$miArray = array();
+			try{
+				$sql = "SELECT p.idperfil,p.nombre FROM usuario u, perfilusuario pu,perfil p
+						WHERE u.idusuario = '$idUsuario' 
+							AND u.idusuario = pu.idusuario 
+								AND p.idperfil = pu.idperfil";
+				$conexion = new Conexion();
+	            $cn = $conexion->Conectarse();
+	            $usuario = mysql_query($sql, $cn);
+	            while ($rsUsuario = mysql_fetch_array($usuario)) {
+	            	$miArray[] = array(
+	            		'idperfil' => $rsUsuario['idperfil'],
+	            		'nombre' => $rsUsuario['nombre']
+					);
+	            }
+			} catch (Exception $exc) {
+				echo $exc->getTraceAsString();
+			}
+			return $miArray;
+		}
+
+		public function validarUsuarioAccess(UsuarioBean $usuarioBean,$access_code = ""){
+			$miArray = array();
+			try {
+				$sql = "SELECT distinct u.* FROM perfilusuario pu,usuario u,perfil p,persona per,map m
+						WHERE pu.idusuario = u.idusuario AND pu.idperfil = p.idperfil 
+								AND p.idperfil = 2 
+									AND u.idpersona = per.idpersona 
+										AND  u.usuario = '$usuarioBean->usuario' 
+											AND m.idUser = u.idusuario 
+												AND m.access_code = '$access_code'";
 				$conexion = new Conexion();
 	            $cn = $conexion->Conectarse();
 	            $usuario = mysql_query($sql, $cn);
@@ -58,6 +115,34 @@
 	            		'nombreCompleto' => $rsUsuario['nombreCompleto'],
 	            		'idtipodoc' => $rsUsuario['idtipodoc'],
 	            		'nrodoc' => $rsUsuario['nrodoc']
+					);
+	            }
+			} catch (Exception $exc) {
+				echo $exc->getTraceAsString();
+			}
+			return $miArray;
+		}
+
+		public function obtenerPorPerfil(){
+			$miArray = array();
+			try {
+				$sql = "SELECT u.idusuario,u.usuario,per.idpersona,per.nombre,per.apepat,per.apemat 
+						FROM perfilusuario pu,usuario u,perfil p,persona per
+						WHERE pu.idusuario = u.idusuario 
+							AND pu.idperfil = p.idperfil 
+								AND p.idperfil = 2 
+									AND u.idpersona = per.idpersona";
+				$conexion = new Conexion();
+	            $cn = $conexion->Conectarse();
+	            $usuario = mysql_query($sql, $cn);
+	            while ($rsUsuario = mysql_fetch_array($usuario)) {
+	            	$miArray[] = array(
+	            		'idusuario' => $rsUsuario['idusuario'],
+	            		'usuario' => $rsUsuario['usuario'],
+	            		'idpersona' => $rsUsuario['idpersona'],
+	            		'nombre' => $rsUsuario['nombre'],
+	            		'apepat' => $rsUsuario['apepat'],
+	            		'apemat' => $rsUsuario['apemat']
 					);
 	            }
 			} catch (Exception $exc) {

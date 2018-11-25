@@ -22,7 +22,7 @@
 			$usuarioBean->setUsuario($username);
 			$usuarioBean->setPassw($password);
 			$listaUsuario = $usuarioDAO->validarUsuario($usuarioBean);
-			if (sizeof($listaUsuario) != 0) {
+			if (sizeof($listaUsuario) > 0 && !empty($listaUsuario)) {
 	            foreach ($listaUsuario as $user) {
 	                $_SESSION['idusuario'] = $user['idusuario'];
 	                $_SESSION['usuario'] = $user['usuario'];
@@ -133,7 +133,21 @@
 	       
 	        $listaUsuario = $usuarioDAO->filtrarUsuario($personaBean, $usuarioBean);
         	echo json_encode($listaUsuario);
-        	break;
+			break;
+		case 8:
+			$listaUsuario = $usuarioDAO->obtenerPorPerfil();
+			echo json_encode($listaUsuario);
+			break;
+		case 9:
+			$response = array();
+			if(isset($_SESSION["usuario"])){
+				$username = $_SESSION["usuario"];
+				$access_code = $_POST["access_code"];
+				$usuarioBean->setUsuario($username);
+				$response = $usuarioDAO->validarUsuarioAccess($usuarioBean,$access_code);
+			}
+			echo json_encode($response);
+			break;
 	}
 
 ?>

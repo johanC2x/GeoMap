@@ -163,6 +163,8 @@
 			$distrito = $_POST["distrito_proyecto"];
 			$long = $_POST["long_proyecto"];
 			$lat = $_POST["lat_proyecto"];
+			$access_proyecto = $_POST["access_proyecto"];
+			$idUser = $_POST["idUser"];
 			$mapBean->setSolicitud($codigo);
 			$mapBean->setActividad($actividad);
 			$mapBean->setNombreContratista($contratista);
@@ -173,6 +175,8 @@
 			$mapBean->setDistrito($distrito);
 			$mapBean->setLng($long);
 			$mapBean->setLat($lat);
+			$mapBean->setAccess_code($access_proyecto);
+			$mapBean->setIdUser($idUser);
 			$result = $mapDAO->insertarSolicitud($mapBean);
 			echo json_encode($result);
 			break;
@@ -192,6 +196,8 @@
 			$distrito = $_POST["distrito_proyecto"];
 			$long = $_POST["long_proyecto"];
 			$lat = $_POST["lat_proyecto"];
+			$access_proyecto = $_POST["access_proyecto"];
+			$idUser = $_POST["idUser"];
 			$mapBean->setSolicitud($codigo);
 			$mapBean->setActividad($actividad);
 			$mapBean->setNombreContratista($contratista);
@@ -202,6 +208,8 @@
 			$mapBean->setDistrito($distrito);
 			$mapBean->setLng($long);
 			$mapBean->setLat($lat);
+			$mapBean->setAccess_code($access_proyecto);
+			$mapBean->setIdUser($idUser);
 			$mapBean->setIdMap($idMap);
 			$result = $mapDAO->actualizarSolicitud($mapBean);
 			echo json_encode($result);
@@ -212,6 +220,18 @@
 			$result = $mapDAO->eliminarSolicitud($mapBean);
 			echo json_encode($result);
 			break;
+		case 26:
+			$codigo = $_POST["code"];
+			$mapBean->setSolicitud($codigo);
+			$result = $mapDAO->obtenerAsignacionesPorCod($mapBean);
+			echo json_encode($result);
+			break;
+		case 27:
+			$offset = $_POST["offset"];
+			$result = $mapDAO->obtenerAsignacionesByPage($offset);
+			echo json_encode($result);
+			break;
+		
 	}
 
 ?>

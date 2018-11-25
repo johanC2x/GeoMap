@@ -20,6 +20,8 @@
 		public $fechaIni;
 		public $lat;
 		public $lng;
+		public $access_code;
+		public $idUser;
 
 		//AYUDA
 		public $anio;
@@ -209,6 +211,58 @@
 	        $this->lng = $lng;
 
 	        return $this;
-	    }
+		}
+		
+    /**
+     * Gets the value of access_code.
+     *
+     * @return mixed
+     */
+    public function getAccess_code()
+    {
+        return $this->access_code;
+    }
+
+    /**
+     * Sets the value of access_code.
+     *
+     * @param mixed $access_code the access_code
+     *
+     * @return self
+     */
+    public function setAccess_code($access_code)
+    {
+        $this->access_code = $access_code;
+
+        return $this;
+    }
+
+
+
+
+    /**
+     * Gets the value of idUser.
+     *
+     * @return mixed
+     */
+    public function getIdUser()
+    {
+        return $this->idUser;
+    }
+
+    /**
+     * Sets the value of idUser.
+     *
+     * @param mixed $idUser the id user
+     *
+     * @return self
+     */
+    public function setIdUser($idUser)
+    {
+        $this->idUser = $idUser;
+
+        return $this;
+    }
+    
 }
 ?>

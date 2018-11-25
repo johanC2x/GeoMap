@@ -19,13 +19,49 @@ function validarUsuario() {
 		},
 		url:"com/controller/UsuarioController.php",
 		success:function(msg){
-			console.log(msg);
-			var usuario = JSON.parse(msg);
+            var usuario = JSON.parse(msg);
+            var perfil = {};
+            if(usuario[0].perfiles !== undefined && usuario[0].perfiles.length > 0){
+                perfil = usuario[0].perfiles.find(perfil => perfil.idperfil === "1");
+            }
+            console.log(perfil);
 			if(usuario.length > 0){
-				location.href = "com/vistas/mantenimientos/welcome/admin.php";
-			}
+                if(perfil !== undefined && Object.keys(perfil).length > 0){
+                    location.href = "com/vistas/mantenimientos/welcome/admin.php";
+                }else{
+                    location.href = "com/vistas/mantenimientos/welcome/validate.php";
+                }
+			}else{
+                alert("El usuario ingresado no tiene accesos");
+            }
 		}
 	});
+}
+
+function validateAccessCode(){
+    $.blockUI({
+        fadeIn: 1000, 
+        timeout:   2000, 
+        onBlock: function() {
+            var access = $("#cod_access").val();
+            $.ajax({
+                type:"POST",
+                data:{
+                    op:9,
+                    access_code:access
+                },
+                url:"../../../controller/UsuarioController.php",
+                success:function(msg){
+                    var response = JSON.parse(msg);
+                    if(response.length > 0){
+                        location.href = "admin.php";
+                    }else{
+                        alert("El código ingresado es incorrecto");
+                    }
+                }
+            });     
+        }
+    });
 }
 
 function obtenerUsuario(){
