@@ -208,21 +208,37 @@
         ?>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDR9Dabu_CPuS75XJiGlctFScHrAnn1JlI&libraries=places"></script>
 		<script type="text/javascript">
-            obtenerTodosPerfil();
-            if(document.getElementById("btn_save_map") !== undefined){
-                $("#btn_save_map").click(function(){
-                    asignacion.saveMap();
-                });
-            }
-            if(document.getElementById("btn_get_code") !== undefined){
-                $("#btn_get_code").click(function(){
-                    $("#access_proyecto").val(Math.floor((Math.random() * 10000000000) + 1));
-                });
-            }
-            asignacion.initMap();
-            google.maps.event.addDomListener(window, 'load', asignacion.loadAutocomplete());
-            asignacion.loadTable();
-            asignacion.loadUser();
+            $(document).ready(function(){
+                obtenerTodosPerfil();
+
+                if(document.getElementById("btn_save_map") !== undefined){
+                    $("#btn_save_map").click(function(){
+                        if($("#actividad_proyecto").val() === ''
+                            ||  $("#codigo_proyecto").val() === ''
+                                || $("#contratista_proyecto").val() === ''
+                                    || $("#cliente_proyecto").val() === ''
+                                        || $("#direccion_proyecto").val() === ''
+                                            || $("#distrito_proyecto").val() === ''
+                                                || $("#idUser").val() === ''){                            
+                            var alert_map = obtenerAlert("Los campos actividad, codigo, contratista, cliente, dirección, distrito y colaborador son requeridos");
+                            $("#res_map").html(alert_map);
+                        }else{
+                            asignacion.saveMap();
+                        }
+                    });
+                }
+                
+                if(document.getElementById("btn_get_code") !== undefined){
+                    $("#btn_get_code").click(function(){
+                        $("#access_proyecto").val(Math.floor((Math.random() * 10000000000) + 1));
+                    });
+                }
+
+                asignacion.initMap();
+                google.maps.event.addDomListener(window, 'load', asignacion.loadAutocomplete());
+                asignacion.loadTable();
+                asignacion.loadUser();
+            });
         </script>
 	</body>
 </html>

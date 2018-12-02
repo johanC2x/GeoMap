@@ -1,8 +1,13 @@
+<!--
 <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+-->
+<script type="text/javascript" src="../../../../assets/js/jquery-2.1.0.js"></script>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script type="text/javascript" src="../../../../assets/js/paging.js"></script>
 <script type="text/javascript" src="../../../../assets/js/bootstrap.min.js" ></script>
 <script type="text/javascript" src="../../../../assets/js/bootstrap-filestyle.min.js" ></script>
+<script type="text/javascript" src="../../../../assets/js/bootstrapValidator.min.js"></script>
 
 <script type="text/javascript" src="../../../../assets/js/jquery.bootstrap-duallistbox.js" ></script>
 <script type="text/javascript" src="../../../../assets/js/bootstrap-checkbox.js" ></script>

@@ -656,7 +656,7 @@ function obtenerDistritoAddress(idMap){
     success:function(msg){
       var mapa = JSON.parse(msg);
       /*mostrarAddress(mapa[0].dirObra.concat(' ',mapa[0].distrito,' Perú'));*/
-      var query = mapa[0].x.concat(',',mapa[0].y);
+      var query = mapa[0].y.concat(',',mapa[0].x);
       $("#query").val(query);
       console.log($("#query").val(query));
       obtenerPorCoordenadas();
@@ -688,7 +688,7 @@ function obtenerDistritoAddress(idMap){
           }
         }        
       }
-      var distancia = updatePosition(mapa[0].x,mapa[0].y);
+      var distancia = updatePosition(mapa[0].y,mapa[0].x);
       if(distancia > 1000){
         bootbox.confirm("Usted no se encuentra en su punto de trabajo...", function(flg) {
           if (flg) {
@@ -751,7 +751,7 @@ function updatePosition(x,y){
   console.log(x + ' /// ' + y);
   console.log(lat + ' /// ' + lon);
   var sevilla = new google.maps.LatLng(x, y);
-  var buenos_aires = new google.maps.LatLng(lat, lon);  
+  var buenos_aires = new google.maps.LatLng(lat, lon); 
   var distancia = google.maps.geometry.spherical.computeDistanceBetween(sevilla, buenos_aires);
   console.log(distancia);
   return distancia;
